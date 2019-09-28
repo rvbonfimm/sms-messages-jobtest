@@ -1,8 +1,8 @@
 {
-  "name": "sms-message-decoder",
+  "name": "sms-messages",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/rvbonfimm/sms-message-decoder.git",
+  "main": "src/server.js",
+  "repository": "https://github.com/rvbonfimm/sms-messages.git",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.js --ignore __tests__",
