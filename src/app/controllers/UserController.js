@@ -1,30 +1,27 @@
 const User = require("../models/User");
 
 class UserController {
-  async findAll(req, res) {
-    const users = await User.find().then(data => {
-      return res.status(201).json(data);
-    });
-  }
-
-  async find(req, res) {
-    const user = await User.find({ _id: req.params.id }).then(data => {
-      if (data.length === 0) {
-        return res.status(404).send();
-      }
-
-      return res.status(200).send(data);
-    });
-  }
-
   async create(req, res) {
-    const user = await User.create(req.body)
+    const user = await User.create({
+      name: "Tester",
+      mail: "tester@alive.com"
+    })
       .then(data => {
-        res.status(201).json(data);
+        if (data.length !== 0) {
+          return res.json(data);
+        }
+
+        return res.json({ error: true, message: "User not added" });
       })
       .catch(error => {
-        res.status(422).send({ message: error.message });
+        return res.json({ error: true, message: error });
       });
+  }
+
+  async findAll(req, res) {
+    const users = await User.find({});
+
+    return res.json({ users });
   }
 }
 
