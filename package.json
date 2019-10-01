@@ -2,6 +2,11 @@
   "name": "sms-messages-jobtest",
   "version": "1.0.1",
   "main": "src/server.js",
+  "engines": {
+    "node": "10.16.3",
+    "npm": "6.9.0",
+    "yarn": "1.17.3"
+  },
   "repository": "https://github.com/rvbonfimm/sms-messages-jobtest.git",
   "license": "MIT",
   "scripts": {
