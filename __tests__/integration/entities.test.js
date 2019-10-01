@@ -1,134 +1,117 @@
-const { MongoClient } = require("mongodb");
 const request = require("supertest");
-const app = require("../../src/app");
-const dbConfig = require("../../src/app/config/database");
+const api = require("../../src/index");
+const agent = request.agent(api);
 
 describe("application operations", () => {
-  let connection;
-  let db;
-  let userId = "";
-
-  beforeAll(async () => {
-    connection = await MongoClient.connect(
-      `mongodb://${dbConfig.DB_HOST}:${dbConfig.DB_PORT}/${dbConfig.DB_NAME}`,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      }
-    );
-
-    db = await connection.db(dbConfig.DB_NAME);
-  });
+  beforeAll(() =>
+    agent
+      .post("/login")
+      .send({
+        mail: "tester@alive.com"
+      })
+      .expect(200)
+      .then(res => {
+        const cookies = res.headers["set-cookie"][0]
+          .split(",")
+          .map(item => item.split(";")[0]);
+        cookie = cookies.join(";");
+      })
+  );
 
   afterAll(async () => {
     await connection.close();
-    await db.dropDatabase();
   });
 
   describe("user operations", () => {
-    it("should be able to create a new user", async () => {
-      const user = {
-        name: "Tester",
-        mail: "rogeriotestdev@gmail.com",
-        password: "1234mudar"
-      };
-      const response = await request(app)
-        .post("/app/users")
-        .send(user);
-      expect(response.statusCode).toBe(201);
-    });
+    it("should not be able to login default user by incorrect credentials", async () =>
+      agent
+        .post("/login")
+        .send({
+          mail: "tester@gmail.com"
+        })
+        .expect(res => {
+          res.body.message = "Mail not found";
+        }));
 
-    it("should not be able to create a new user by existing mail address", async () => {
-      const user = {
-        name: "Rogerio",
-        mail: "rogeriotestdev@gmail.com",
-        password: "123"
-      };
-      const response = await request(app)
-        .post("/app/users")
-        .send(user);
-      expect(response.statusCode).toBe(422);
-    });
+    it("should be able to login default user with correct credentials", async () =>
+      agent
+        .post("/login")
+        .send({
+          mail: "tester@alive.com"
+        })
+        .expect(res => {
+          res.body.message = "User logged";
+        }));
 
-    it("should return all users registered", async () => {
-      const response = await request(app).get("/app/users");
-      expect(response.body.length).toBeGreaterThan(0);
-    });
-
-    it("should not return user by wrong id", async () => {
-      userId = "999999999999999999999999";
-      const response = await request(app).get(`/app/users/${userId}`);
-      expect(response.statusCode).toBe(404);
-    });
-
-    it("should return user by id", async () => {
-      var responseOne = await request(app).get("/app/users");
-
-      const first = 1;
-
-      responseOne.body.forEach(user => {
-        if (first === 1) {
-          userId = user._id;
-          return;
-        }
-      });
-
-      const response = await request(app).get(`/app/users/${userId}`);
-      expect(response.body).toHaveLength(1);
-    });
+    it("should return all users registered", async () =>
+      agent.get("/api/users").expect(200));
   });
 
   describe("Messages operations", () => {
-    it("should not return any message by wrong url", async () => {
-      const response = await request(app).get("/app/message/");
+    it("should return all messages", () =>
+      agent.get("/api/messages").expect(200));
 
-      expect(response.status).toBe(404);
-    });
+    it("should not be able to get a message by wrong id", () =>
+      agent
+        .get("/api/messages/999999999999999999999999")
+        .expect(404)
+        .expect({
+          error: true,
+          message: "Message not found"
+        }));
 
-    it("should return all messages", async () => {
-      const response = await request(app).get("/app/messages");
+    it("should be able to get a message by id", () =>
+      agent
+        .get("/api/messages/5d92c9826f3dd9327ccf5392")
+        .expect(200)
+        .expect(res => {
+          (res.body.data = "833777783303_33063377772"),
+            (res.body.output = "TESTE DE MESA");
+        }));
 
-      expect(response.status).toBe(200);
-    });
+    it("should not create a message by empty network type", () =>
+      agent
+        .post("/api/messages")
+        .send({
+          userId: "5d92bba38a24203bec75e78a",
+          networkType: "",
+          messageType: "text",
+          data: "TESTE DE MESA"
+        })
+        .expect(404)
+        .expect({
+          error: true,
+          message: "You forgot to specify the Network Type: GSM or CDMA"
+        }));
 
-    it("should create a message", async () => {
-      const message = {
-        userId: userId,
-        type: [0],
-        data: "TESTE DE MESA"
-      };
+    it("should not create a message by empty network type", () =>
+      agent
+        .post("/api/messages")
+        .send({
+          userId: "5d92bba38a24203bec75e78a",
+          networkType: "GSM",
+          messageType: "",
+          data: "TESTE DE MESA"
+        })
+        .expect(404)
+        .expect({
+          error: true,
+          message: "You forgot to specify the Message Type: Text or Sequence"
+        }));
 
-      const response = await request(app)
-        .post("/app/messages")
-        .send(message);
-
-      expect(response.statusCode).toBe(201);
-    });
-
-    it("should not be able to get a message by wrong id", async () => {
-      var messageId = "999999999999999999999999";
-
-      const response = await request(app).get(`/app/messages/${messageId}`);
-
-      expect(response.statusCode).toBe(404);
-    });
-
-    it("should be able to get a message by id", async () => {
-      const responseOne = await request(app).get("/app/messages");
-
-      var first = 1;
-      var messageId = "";
-
-      responseOne.body.forEach(message => {
-        if (first === 1) {
-          messageId = message._id;
-          return;
-        }
-      });
-
-      const response = await request(app).get(`/app/messages/${messageId}`);
-
-      expect(response.body.length).toBeGreaterThan(0);
-    });
+    it("should not create a message by empty input data", () =>
+      agent
+        .post("/api/messages")
+        .send({
+          userId: "5d92bba38a24203bec75e78a",
+          networkType: "GSM",
+          messageType: "Text",
+          data: ""
+        })
+        .expect(404)
+        .expect({
+          error: true,
+          message: "You forgot to specify the Data to be processed"
+        }));
   });
 });
