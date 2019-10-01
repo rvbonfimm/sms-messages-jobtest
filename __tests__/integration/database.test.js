@@ -1,10 +1,8 @@
 const { MongoClient } = require("mongodb");
 const dbConfig = require("../../src/app/config/database");
 
-describe("database connection test", () => {
+describe("database connection", () => {
   let connection;
-  let db;
-  let userId = "";
 
   beforeAll(async () => {
     connection = await MongoClient.connect(
@@ -20,7 +18,6 @@ describe("database connection test", () => {
 
   afterAll(async () => {
     await connection.close();
-    await db.dropDatabase();
   });
 
   it("should be able to connect to the database", () => {
