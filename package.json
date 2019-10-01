@@ -1,13 +1,13 @@
 {
-  "name": "sms-messages",
-  "version": "1.0.0",
-  "main": "src/index.js",
-  "repository": "https://github.com/rvbonfimm/sms-messages.git",
+  "name": "sms-messages-jobtest",
+  "version": "1.0.1",
+  "main": "src/server.js",
+  "repository": "https://github.com/rvbonfimm/sms-messages-jobtest.git",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.js --ignore __tests__",
-    "prod": "node src/server.js",
-    "test": "set NODE_ENV=test && jest"
+    "test": "set NODE_ENV=test && jest",
+    "start": "set NODE_ENV=production && node src/server.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
