@@ -2,7 +2,7 @@ const User = require("../models/User");
 
 class SystemController {
   index(req, res) {
-    return res.json({ message: "Need to login the user " });
+    return res.json({ message: "Need to login the user" });
   }
 
   notFound(req, res) {
