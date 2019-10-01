@@ -6,11 +6,19 @@ const schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
-    type: {
+    networkType: {
+      type: ["GSM", "CDMA"],
+      required: true
+    },
+    messageType: {
       type: ["Message", "Sequence"],
       required: true
     },
     data: {
+      type: String,
+      required: true
+    },
+    output: {
       type: String,
       required: true
     }
