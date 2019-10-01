@@ -9,13 +9,8 @@ const schema = new mongoose.Schema(
     },
     mail: {
       type: String,
-      lowercase: true,
-      unique: true,
-      required: true
-    },
-    password: {
-      type: String,
-      required: true
+      required: true,
+      lowercase: true
     }
   },
   {
