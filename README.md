@@ -21,7 +21,9 @@ Passos para executar a aplicação local do Heroku:
     2. Clonar o repositório no Heroku/Git:
       $ heroku git:clone -a pacific-bayou-57849;
     3. Adicionar neste repositório criado o arquivo ".env" (responsável por especificar as variáveis de ambiente p/ conexão com o banco de dados);
-    4. Subir a aplicação local do Heroku: 
+    4. Baixar as dependências do projeto:
+      $ npm install ou yarn;
+    5. Subir a aplicação local do Heroku: 
       $ heroku local;
     5. Abrir o navegador e ser feliz: localhost:3000:
       > Apenas o e-mail se faz necessário para logar o usuário, sendo este: tester@alive.com;
