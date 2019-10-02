@@ -6,8 +6,9 @@ const sessionConfig = require("./app/config/session");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const LokiStore = require("connect-loki")(session);
+const nunjucks = require("nunjucks");
 
-const app = express();
+let app = express();
 
 mongoose.connect(
   `mongodb://${dbConfig.MONGODB_USER}:${dbConfig.MONGODB_PASSWD}@${dbConfig.MONGODB_HOST}:${dbConfig.MONGODB_PORT}/${dbConfig.MONGODB_NAME}`,
@@ -17,9 +18,9 @@ mongoose.connect(
   }
 );
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.json());
+app.use(bodyParser.json());
 
 app.use(
   session({
@@ -33,6 +34,16 @@ app.use(
     saveUninitialized: false
   })
 );
+
+nunjucks.configure(path.resolve(__dirname, "app", "views"), {
+  watch: true,
+  express: app,
+  autoescape: true
+});
+
+app.set("view engine", "njk");
+
+app.use(express.static(path.resolve(__dirname, "..", "public")));
 
 app.use(require("./routes.js"));
 
