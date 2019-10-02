@@ -3,16 +3,21 @@
   "version": "1.0.1",
   "main": "src/server.js",
   "engines": {
-    "node": "10.16.3",
+    "node": "10.x",
     "npm": "6.9.0",
     "yarn": "1.17.3"
   },
+  "keywords": [
+    "sms-messages",
+    "heroku"
+  ],
+  "author": "rogerio-vilela-bonfim",
   "repository": "https://github.com/rvbonfimm/sms-messages-jobtest.git",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/server.js --ignore __tests__",
+    "dev": "set NODE_ENV=dev && nodemon src/server.js --ignore __tests__",
     "test": "set NODE_ENV=test && jest",
-    "start": "set NODE_ENV=production && node src/server.js"
+    "start": "set NODE_ENV=prod && node src/server.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
