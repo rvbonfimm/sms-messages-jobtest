@@ -6,7 +6,7 @@ URLs importantes:
 
 :point_right: mLab mongodb public database: https://www.mlab.com/databases/heroku_phn2rgmc.
     
-:exclamation: Needs a .env file to connect to the public database (or It'll connect to local mongodb - see config/database.js file);
+:exclamation: Necessário o arquivo .env para conectar ao banco de dados público (ou uma conexão local será criada  - veja o arquivo config/database.js);
   
 Software's necessários:
 
@@ -37,4 +37,3 @@ Para rodar a aplicação no modo dev:
   
 Para rodar os testes da aplicação:
   $ yarn test;
-  
