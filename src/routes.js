@@ -10,11 +10,11 @@ const authMiddleware = require("./app/middlewares/Auth");
 routes.get("/", guestMiddleware, SystemController.index);
 routes.get("/logout", SystemController.logout);
 routes.post("/login", SystemController.login);
+routes.post("/api/users", UserController.create);
 
-routes.use("/api", authMiddleware);
+routes.use(authMiddleware);
 
 routes.get("/api/users", UserController.findAll);
-routes.post("/api/users", UserController.create);
 
 routes.get("/api", MessageController.findAll);
 routes.get("/api/messages", MessageController.findAll);
