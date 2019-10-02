@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow shadow-bottom">
+  <a class="navbar-brand" href="/api">Painel Principal</a>
+
+  <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      </ul>
+      <div class="my-2 my-lg-0">
+        <div class="btn-group dropmid">
+            {% if user %}
+                <button type="button" class="btn btn-info dropdown-toggle shadow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ user.name }}
+                </button>
+            {% endif %}
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="/logout">
+                    <span>
+                        <img src="/images/iconfinder_pen_stroke_sketch_doodle_lineart_106_451414.png" width="25" height="25">
+                    </span>
+                    Sair do sistema
+                </a>
+            </div>
+        </div>
+      </div>
+    </div>
+</nav>

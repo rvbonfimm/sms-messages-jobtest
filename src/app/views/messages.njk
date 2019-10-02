@@ -1,0 +1,53 @@
+{% extends "_layouts/default.njk" %}
+
+{% block header %}
+  <title>Mensagens cadastradas</title>
+  {% include "_partials/navbar.njk" %}
+{% endblock %}
+
+{% block body %}
+  <div class="row justify-content-center">
+    <div class="col-auto border border-light mt-5 bg-light bordered shadow">
+      <div class="container m-3">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr class="h5 text-center">
+                <th>Id. Usuário</th>
+                <th>Tipo de Rede</th>
+                <th>Tipo da Mensagem</th>
+                <th>Dado</th>
+                <th>Resultado</th>
+                <th>Pesquisar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for message in messages %}
+                <tr class="text-center">
+                  <td>{{ message.userId }}</td>
+                  <td>{{ message.networkType }}</td>
+                  <td>{{ message.messageType }}</td>
+                  <td>{{ message.data }}</td>
+                  <td>{{ message.output }}</td>
+                  <td>
+                    <a href="/api/messages/{{ message._id }}">
+                      {{ message._id }}
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="h5" colspan="6">Total de mensagens: {{ messages | length }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

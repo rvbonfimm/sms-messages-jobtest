@@ -1,0 +1,49 @@
+{% extends "_layouts/default.njk" %}
+
+{% block header %}
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/card-hover.css">
+  {% include "_partials/navbar.njk" %}
+{% endblock %}
+
+{% block body %}
+  <div class="mt-5 container">
+    <p class="h2">{{ user.name }}, o que você deseja fazer?</p>
+
+    <hr class="border">
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-sm-3 m-auto mb-3">
+            <div class="shadow card">
+                <p class="card-title h4 text-center mt-3">Criar uma Nova Mensagem</p>
+                <hr class="border border-info">
+                <div class="card-body">
+                    <a style"border-style: none;" href="/api/messages/add">
+                        <img class="card-img-top mb-3" src="/images/iconfinder_13_1250312.png" title="Realizar o cadastro de um novo Munícipe e sua Demanda.">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3 m-auto mb-3">
+            <div class="shadow card">
+                <p class="card-title h4 text-center mt-3">Consultar as mensagens</p>
+                <hr class="border border-info">
+                <div class="card-body">
+                    <a style"border-style: none;"; href="/api/messages">
+                        <img class="card-img-top mb-3" src="/images/iconfinder_Citycons_magnify_1342938.png" title="Realizar o cadastro de uma nova Demanda atrelado à um Munícipe já cadastrado.">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

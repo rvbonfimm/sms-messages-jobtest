@@ -1,0 +1,47 @@
+{% extends "_layouts/default.njk" %}
+
+{% block header %}
+  {% include "_partials/navbar.njk" %}
+{% endblock %}
+
+{% block body %}
+  <form action="/api/messages" method="POST">
+    <div class="container mt-3">
+      <div class="row justify-content-center">
+        <div class="form-group w-50 border rounded p-5 mt-3 mb-3 shadow-lg">
+          <div class="col-auto">
+            <p class="h5 mb-2">Qual o tipo da Rede?</p>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="networkType" id="gsm" value="GSM">
+              <label class="form-check-label" for="gsm">GSM</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="networkType" id="cdma" value="CDMA">
+              <label class="form-check-label" for="cdma">CDMA</label>
+            </div>
+
+            <br>
+            <br>
+
+            <p class="h5 mb-2">Qual o tipo da Mensagem?</p>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="messageType" id="text" value="TEXT">
+              <label class="form-check-label" for="text">Texto</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="messageType" id="sequence" value="SEQUENCE">
+              <label class="form-check-label" for="sequence">Sequência</label>
+            </div>
+
+            <br>
+
+            <label class="mt-4" for="newPasswd">Entrada:</label>
+            <input class="form-control" type="text" name="data" id="data" required></input>
+
+            <button class="btn btn-success btn-lg mt-4 btn-block" type="submit">Enviar!</button>
+          </div>
+        </div>
+      </div>  
+    </div>
+  </form>
+{% endblock %}

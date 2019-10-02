@@ -1,0 +1,26 @@
+#bgImage {
+  background-image: url("/images/architecture_city_view_from_above_buildings_river_118446_1920x1080.jpg");
+}
+
+#indexTitle {
+  color: #ffffff;
+  opacity: 0.5;
+  font-family: "Georgia", serif;
+  font-size: 80px;
+}
+
+#mainDiv {
+  opacity: 0.9;
+}
+
+input {
+  font-size: 20px !important;
+  font-family: "Georgia", serif;
+  text-align: center;
+}
+
+button {
+  font-size: 20px !important;
+  font-family: "Libre Baskerville", serif;
+  text-align: center;
+}
