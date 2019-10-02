@@ -9,7 +9,9 @@ describe("application operations", () => {
       .send({
         mail: "tester@alive.com"
       })
-      .expect(200)
+      .expect(res => {
+        res.status = 302;
+      })
       .then(res => {
         const cookies = res.headers["set-cookie"][0]
           .split(",")
@@ -23,6 +25,18 @@ describe("application operations", () => {
   });
 
   describe("user operations", () => {
+    it("should not be able to create a user by same mail registered", async () =>
+      agent
+        .post("/api/users")
+        .send({
+          name: "Tester",
+          mail: "tester@alive.com"
+        })
+        .expect(res => {
+          res.body.error = true;
+          res.body.message = "User already registered";
+        }));
+
     it("should not be able to login default user by incorrect credentials", async () =>
       agent
         .post("/login")
@@ -30,7 +44,7 @@ describe("application operations", () => {
           mail: "tester@gmail.com"
         })
         .expect(res => {
-          res.body.message = "Mail not found";
+          res.status = 404;
         }));
 
     it("should be able to login default user with correct credentials", async () =>
@@ -40,7 +54,7 @@ describe("application operations", () => {
           mail: "tester@alive.com"
         })
         .expect(res => {
-          res.body.message = "User logged";
+          res.status = 302;
         }));
 
     it("should return all users registered", async () =>
@@ -62,7 +76,7 @@ describe("application operations", () => {
 
     it("should be able to get a message by id", () =>
       agent
-        .get("/api/messages/5d92c9826f3dd9327ccf5392")
+        .get("/api/messages/5d94bf494a94aa0a24f6e4a2") // Insert your Id message
         .expect(200)
         .expect(res => {
           (res.body.data = "833777783303_33063377772"),
@@ -74,7 +88,7 @@ describe("application operations", () => {
         .post("/api/messages")
         .send({
           userId: "5d92bba38a24203bec75e78a",
-          networkType: "",
+          networkType: undefined,
           messageType: "text",
           data: "TESTE DE MESA"
         })
@@ -90,7 +104,7 @@ describe("application operations", () => {
         .send({
           userId: "5d92bba38a24203bec75e78a",
           networkType: "GSM",
-          messageType: "",
+          messageType: undefined,
           data: "TESTE DE MESA"
         })
         .expect(404)
@@ -106,12 +120,58 @@ describe("application operations", () => {
           userId: "5d92bba38a24203bec75e78a",
           networkType: "GSM",
           messageType: "Text",
-          data: ""
+          data: undefined
         })
         .expect(404)
         .expect({
           error: true,
           message: "You forgot to specify the Data to be processed"
         }));
+
+    it("should create a TEXT messageType and GSM networkType", () =>
+      agent
+        .post("/api/messages")
+        .send({
+          userId: "5d92bba38a24203bec75e78a",
+          networkType: "GSM",
+          messageType: "Text",
+          data: "TESTE"
+        })
+        .expect(201));
+
+    it("should create a TEXT messageType and CDMA networkType", () =>
+      agent
+        .post("/api/messages")
+        .send({
+          userId: "5d92bba38a24203bec75e78a",
+          networkType: "cdma",
+          messageType: "Text",
+          data: "TESTE DE MESA NOVO"
+        })
+        .expect(201));
+
+    it("should create a SEQUENCE messageType and GSM networkType", () =>
+      agent
+        .post("/api/messages")
+        .send({
+          userId: "5d92bba38a24203bec75e78a",
+          networkType: "gsm",
+          messageType: "sequence",
+          data: "546265574_2353"
+        })
+        .expect(res => {
+          res.status = 201;
+        }));
+
+    it("should create a SEQUENCE messageType and CDMA networkType", () =>
+      agent
+        .post("/api/messages")
+        .send({
+          userId: "5d92bba38a24203bec75e78a",
+          networkType: "CDMA",
+          messageType: "sequence",
+          data: "546265574_2353"
+        })
+        .expect(201));
   });
 });
