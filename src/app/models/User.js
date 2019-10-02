@@ -10,7 +10,8 @@ const schema = new mongoose.Schema(
     mail: {
       type: String,
       required: true,
-      lowercase: true
+      lowercase: true,
+      unique: true
     }
   },
   {
