@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const dbConfig = require("./app/config/database");
+const sessionConfig = require("./app/config/session");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const LokiStore = require("connect-loki")(session);
@@ -9,7 +10,7 @@ const LokiStore = require("connect-loki")(session);
 const app = express();
 
 mongoose.connect(
-  `mongodb://${dbConfig.DB_HOST}:${dbConfig.DB_PORT}/${dbConfig.DB_NAME}`,
+  `mongodb://${dbConfig.MONGODB_USER}:${dbConfig.MONGODB_PASSWD}@${dbConfig.MONGODB_HOST}:${dbConfig.MONGODB_PORT}/${dbConfig.MONGODB_NAME}`,
   {
     useUnifiedTopology: true,
     useNewUrlParser: true
@@ -22,8 +23,8 @@ app.use(express.json());
 
 app.use(
   session({
-    name: "sms-messages",
-    secret: "auxxxX123@$4",
+    name: sessionConfig.NAME,
+    secret: sessionConfig.SECRET,
     expires: new Date(Date.now() + 3600000),
     resave: false,
     store: new LokiStore({
