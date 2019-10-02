@@ -12,10 +12,14 @@ const keyboard = {
 };
 
 class MessageController {
+  async index(req, res) {
+    return res.render("new_message.njk");
+  }
+
   async findAll(req, res) {
     const messages = await Message.find()
       .then(data => {
-        return res.status(200).json(data);
+        return res.status(200).render("messages.njk", { messages: data });
       })
       .catch(error => {
         return res.status(404).json(error);
@@ -43,21 +47,21 @@ class MessageController {
   async create(req, res) {
     let { networkType, messageType, data } = req.body;
 
-    if (networkType === "") {
+    if (networkType === undefined) {
       return res.status(404).json({
         error: true,
         message: "You forgot to specify the Network Type: GSM or CDMA"
       });
     }
 
-    if (messageType === "") {
+    if (messageType === undefined) {
       return res.status(404).json({
         error: true,
         message: "You forgot to specify the Message Type: Text or Sequence"
       });
     }
 
-    if (data === "") {
+    if (data === undefined) {
       return res.status(404).json({
         error: true,
         message: "You forgot to specify the Data to be processed"
@@ -91,7 +95,7 @@ class MessageController {
 
     const message = await Message.create(resultJson)
       .then(data => {
-        return res.status(201).json(data);
+        return res.status(201).render("dashboard.njk");
       })
       .catch(error => {
         return res.status(404).json(error);

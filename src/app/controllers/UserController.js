@@ -7,11 +7,11 @@ class UserController {
       mail: "tester@alive.com"
     })
       .then(data => {
-        if (data.length !== 0) {
-          return res.json(data);
+        if (data.length === 0) {
+          return res.json({ error: true, message: "User already registered" });
         }
 
-        return res.json({ error: true, message: "User not added" });
+        return res.json(data);
       })
       .catch(error => {
         return res.json({ error: true, message: error });

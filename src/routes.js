@@ -14,10 +14,11 @@ routes.post("/api/users", UserController.create);
 
 routes.use(authMiddleware);
 
+routes.get("/api", SystemController.dashboard);
 routes.get("/api/users", UserController.findAll);
 
-routes.get("/api", MessageController.findAll);
 routes.get("/api/messages", MessageController.findAll);
+routes.get("/api/messages/add", MessageController.index);
 routes.get("/api/messages/:id", MessageController.find);
 routes.post("/api/messages", MessageController.create);
 
