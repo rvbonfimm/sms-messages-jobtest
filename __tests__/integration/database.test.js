@@ -6,7 +6,7 @@ describe("database connection", () => {
 
   beforeAll(async () => {
     connection = await MongoClient.connect(
-      `mongodb://${dbConfig.DB_HOST}:${dbConfig.DB_PORT}/${dbConfig.DB_NAME}`,
+      `mongodb://${dbConfig.MONGODB_USER}:${dbConfig.MONGODB_PASSWD}@${dbConfig.MONGODB_HOST}:${dbConfig.MONGODB_PORT}/${dbConfig.MONGODB_NAME}`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true
