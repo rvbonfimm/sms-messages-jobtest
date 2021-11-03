@@ -28,7 +28,7 @@
     "express-session": "^1.16.2",
     "mongoose": "^5.7.1",
     "nunjucks": "^3.2.0",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
